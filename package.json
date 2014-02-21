@@ -1,0 +1,22 @@
+{
+  "name": "plog-client",
+  "author": "Nelson Gauthier <nelson@airbnb.com>",
+  "description": "Send messages via UDP to the Plog Kafka forwarder.",
+  "keywords": ["plog", "logging", "udp", "kafka"],
+  "version": "0.0.1",
+  "homepage": "https://github.com/airbnb/node-plog-client",
+  "bugs": "https://github.com/airbnb/node-plog-client/issues",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/airbnb/node-plog-client.git"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "murmurhash3": "~0.2.3"
+  },
+  "devDependencies": {
+    "mocha": "1.17.1",
+    "chai": "1.9.0",
+    "jshint": "2.4.3"
+  }
+}
