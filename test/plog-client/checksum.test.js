@@ -14,6 +14,15 @@ describe('Checksum', function () {
       });
     });
 
+    context('when the buffer contains an invalid utf-8 sequence', function () {
+      var buffer = new Buffer([0xC2]),
+          expected = 270853570;
+
+      it('computes the correct checksum', function () {
+        expect(Checksum.compute(buffer)).to.equal(expected);
+      });
+    });
+
     context('when the hash would be greater than 2^31', function () {
       var buffer = new Buffer('95dfa7c4-307b-4a88-8739-4801f09b2d04', 'utf-8'),
           expected = 3557673916;
