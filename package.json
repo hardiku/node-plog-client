@@ -17,6 +17,10 @@
   "devDependencies": {
     "mocha": "1.17.1",
     "chai": "1.9.0",
+    "sinon": "1.8.2",
     "jshint": "2.4.3"
+  },
+  "scripts": {
+    "test": "mocha -R spec ./test --recursive"
   }
 }
