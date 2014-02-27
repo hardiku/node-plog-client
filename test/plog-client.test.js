@@ -100,6 +100,50 @@ describe('PlogClient', function () {
 
     });
 
+    describe("message payload", function () {
+      var socket, client;
+      var capturedBuffer;
+
+      beforeEach(function () {
+        socket = dgram.createSocket('udp4');
+        client = new PlogClient({socket: socket});
+
+        capturedBuffer = null;
+        sandbox.stub(socket, 'send', function (buffer) {
+          capturedBuffer = buffer;
+        });
+      });
+
+      function validatePayload (packet, message) {
+        var payloadSlice = packet.slice(packet.length - message.length);
+        expect(payloadSlice.length).to.equal(message.length);
+        for (var i = 0; i < message.length; i++) {
+          expect(payloadSlice[i]).to.equal(message[i]);
+        }
+      }
+
+      context("when the first argument is a buffer", function () {
+        // This is an illegal utf-8 sequence.
+        var message = new Buffer([0xC2]);
+
+        it("is the contents of the buffer unchanged", function () {
+          client.send(message);
+          validatePayload(capturedBuffer, message);
+        });
+      });
+
+      context("when the first argument is a string", function () {
+        var message = "Test test \u04C1",
+            expectedBuffer = new Buffer(message, 'utf-8');
+
+        it("is the contents of the string as utf-8", function () {
+          client.send(message);
+          validatePayload(capturedBuffer, expectedBuffer);
+        });
+      });
+
+    });
+
     describe("message id", function () {
       var client, messageIds;
 
